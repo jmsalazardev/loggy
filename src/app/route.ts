@@ -17,8 +17,18 @@ async function handleRecordRequest(req: NextRequest) {
     const queryString = url.search || "";
     const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "127.0.0.1";
     const userAgent = req.headers.get("user-agent") || "unknown";
+    const timestamp = new Date().toISOString();
 
-    // Save to Database (Vercel Postgres / Vercel KV / Memory fallback)
+    // 🌟 REGISTRO DIRECTO EN VERCEL LOGS (Console Output)
+    console.log("[URL_PARAM_RECORDER]", JSON.stringify({
+      timestamp,
+      queryString,
+      params: paramsObj,
+      ip,
+      userAgent,
+    }, null, 2));
+
+    // Intenta guardar en BD si existe configuración, pero no es obligatoria
     const savedLog = await saveUrlLog({
       params: paramsObj,
       queryString,
