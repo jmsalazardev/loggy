@@ -17,7 +17,7 @@ const memoryLogs: LogEntry[] = [];
  * Returns a Neon SQL query executor if DATABASE_URL or POSTGRES_URL is defined.
  */
 function getNeonSql() {
-  const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+  const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.STORAGE_URL;
   if (!dbUrl) return null;
   try {
     return neon(dbUrl);
